@@ -1,0 +1,10 @@
+import * as Chat from './Chat/index';
+import * as Configuration from './Configuration/index';
+import * as Common from './Common/index';
+import * as Login from './Login/index';
+import * as SendTo from './SendTo/index';
+export {Chat};
+export {Configuration};
+export {Common};
+export {Login};
+export {SendTo};

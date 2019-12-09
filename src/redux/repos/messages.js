@@ -1,0 +1,179 @@
+import produce from 'immer';
+
+export const addMember = (state, payload) => {
+    if (!payload) {
+        const newState = produce(state, draftState => {});
+        return newState;
+    } else {
+        const newState = produce(state, draftState => {
+            draftState.userIds = payload
+        });
+        return newState;
+    }
+};
+
+export const addMessage = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.value = '';
+    });
+    return newState;
+};
+
+export const backToChat = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.isConfigured = false;
+    });
+    return newState;
+};
+
+export const backToRooms = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.isListenerSet = false;
+        draftState.isMute = false;
+        draftState.msgs = [];
+        draftState.partnerId = '';
+        draftState.roomId = '';
+        draftState.selected = '';
+        draftState.userIds = '';
+    });
+    return newState;
+};
+
+export const configureRoom = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.isConfigured = true;
+    });
+    return newState;
+};
+
+export const changeText = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.value = payload;
+    });
+    return newState;
+};
+
+export const createRoom = (state, payload) => {
+    if (!payload) {
+        return produce(state, draftState => {});
+    } else if (payload.partnerId === "") {
+        const newState = produce(state, draftState => {
+            draftState.isListenerSet = false;
+            draftState.isCreatePage = false;
+            draftState.isConfigured = true;
+            draftState.msgs = [];
+            draftState.rooms[payload.roomId] = payload.room;
+            draftState.displayedRooms[payload.roomId] = payload.room;
+            draftState.selected = "GROUP";
+            draftState.roomId = payload.roomId;
+            draftState.partnerId = payload.partnerId;
+            draftState.userIds = payload.userIds;
+        });
+        return newState;
+    } else {
+        return window.location.replace(`/message?partnerId=${payload.partnerId}`)
+    }
+};
+
+export const deleteRoom = (state, payload) => {
+    if (!payload) {
+        return produce(state, draftState => {});
+    } else {
+        return window.location.reload()
+    }
+};
+
+export const exitRoom = (state, payload) => {
+    if (!payload) {
+        return produce(state, draftState => {});
+    } else {
+        return window.location.reload()
+    }
+};
+
+export const kickOut = (state, payload) => {
+    const newUserIds = state.userIds.filter((userId) => userId !== payload);
+    if (!payload) {
+        return produce(state, draftState => {});
+    } else {
+        return produce(state, draftState => {
+            draftState.userIds = newUserIds
+        });
+    }
+};
+
+export const inputGroupName = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.roomName = payload;
+    });
+    return newState;
+};
+
+export const renameGroup = (state, payload) => {
+    if (!payload) {
+        const newState = produce(state, draftState => {});
+        return newState;
+    } else {
+        const newState = produce(state, draftState => {
+            draftState.rooms[draftState.roomId].name = payload
+            draftState.roomName = payload
+        });
+        return newState;
+    }
+};
+
+export const searchMessage = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.displayedRooms = payload
+    });
+    return newState;
+};
+
+export const selectRoom = (state, payload) => {
+    let selected = "";
+    if (payload.partnerId !== "" && payload.userIds === "") {
+        selected = "PRIVATE"
+    } else if (payload.partnerId === "" && payload.userIds !== "") {
+        selected = "GROUP"
+    }
+
+    const newState = produce(state, draftState => {
+        draftState.isListenerSet = false;
+        draftState.isMute = payload.isMute;
+        draftState.msgs = [];
+        draftState.partnerId = payload.partnerId;
+        draftState.roomId = payload.id;
+        draftState.roomName = payload.name;
+        draftState.selected = selected;
+        draftState.userIds = payload.userIds;
+    });
+    return newState;
+};
+
+export const setListener = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.isListenerSet = payload
+    });
+    return newState;
+};
+
+export const switchList = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.isCreatePage = payload
+    });
+    return newState;
+};
+
+export const switchMute = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.isMute = payload
+    });
+    return newState;
+};
+
+export const uploadIcon = (state, payload) => {
+    const newState = produce(state, draftState => {
+        // draftState.isMute = payload
+    });
+    return newState;
+};
