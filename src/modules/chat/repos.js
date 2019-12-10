@@ -157,6 +157,14 @@ export const setListener = (state, payload) => {
     return newState;
 };
 
+export const signIn = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.userId = payload.userId;
+        draftState.userPhoto = payload.userPhoto;
+    });
+    return newState;
+};
+
 export const switchList = (state, payload) => {
     const newState = produce(state, draftState => {
         draftState.isCreatePage = payload

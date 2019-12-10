@@ -2,26 +2,37 @@ import React, {Component} from "react";
 import {SendToContainer} from "../containers/SendTo";
 import {ChatContainer} from "../containers/Chat";
 import {ConfigurationContainer} from "../containers/Configuration";
+import {LoginContainer} from "../containers/Login";
 
-class Root extends Component {
+class RootTemplate extends Component {
     constructor(props) {
         super(props)
     }
 
     render() {
+        console.log(this.props)
+        const isLogined = (this.props.messages.userId !== "");
+        const isRoomSelected = (this.props.messages.roomId !== "");
+        const isConfigured = (this.props.messages.isConfigured);
+
         return (
-            <div className="col-12 c-grid__column">
-                {(this.props.messages.roomId === "") && (
+            <div className="col-lg-9 col-md-10 col-sm-12 col-xs-12 c-grid__column">
+                {(!isLogined) && (
+                <div className="p-box__content">
+                    <LoginContainer />
+                </div>
+                )}
+                {(isLogined && !isRoomSelected) && (
                 <div className="p-box__content">
                     <SendToContainer/>
                 </div>
                 )}
-                {(this.props.messages.roomId !== "" && !(this.props.messages.isConfigured)) && (
+                {(isLogined && isRoomSelected && !isConfigured) && (
                 <div className="p-box__content">
                     <ChatContainer/>
                 </div>
                 )}
-                {(this.props.messages.roomId !== "" && (this.props.messages.isConfigured)) && (
+                {(isLogined && isRoomSelected && isConfigured) && (
                 <div className="p-box__content">
                     <ConfigurationContainer/>
                 </div>
@@ -31,4 +42,4 @@ class Root extends Component {
     }
 }
 
-export default Root
+export default RootTemplate

@@ -2,7 +2,7 @@ import {createActions} from 'redux-actions';
 import {database, storage} from '../../firebase/index'
 import {getDatetimeAsNumber, updateMultiPath} from '../../functions/index'
 
-const {messages} = createActions({
+export const actions = createActions({
     messages: {
         addMember(selectedUsers, rooms) {
             if (selectedUsers.length === 0) {
@@ -258,8 +258,7 @@ const {messages} = createActions({
             return payload
         },
         signIn(value) {
-
-
+            return value
         },
         mute(value) {
             const payload = !value.isMute;
@@ -412,6 +411,3 @@ const {messages} = createActions({
         }
     },
 });
-
-export {messages};
-//inputの入力値はComponentで管理したほうがいい

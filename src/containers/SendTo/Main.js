@@ -1,7 +1,7 @@
-import SendToParent from '../../templates/SendTo';
+import SendTemplate from '../../templates/SendTo';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {actions} from '../../redux/actions';
+import {actions} from '../../modules/chat/index';
 
 const mapStateToProps = state => {
   return {
@@ -22,4 +22,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   )
-)(SendToParent);
+)(SendTemplate);

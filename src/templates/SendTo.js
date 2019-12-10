@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {SendTo} from '../components/core';
 import {database} from '../firebase/index'
 
-class SendParent extends Component {
+class SendTemplate extends Component {
     constructor(props) {
         super(props);
 
@@ -240,4 +240,4 @@ class SendParent extends Component {
     }
 }
 
-export default SendParent
+export default SendTemplate

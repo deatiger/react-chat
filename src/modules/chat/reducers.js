@@ -1,9 +1,10 @@
 import {handleActions} from 'redux-actions';
-import {actions} from '../actions';
-import {repos} from '../repos';
+import {actions} from './index';
+import {repos} from './index';
 import {initialState} from '../store/initialState';
+import {combineReducers} from 'redux';
 
-const messages = handleActions(
+const Reducers = handleActions(
     {
         [`${actions.messages.addMember}`](state, action) {
         return repos.messages.addMember(state, action.payload);
@@ -50,6 +51,9 @@ const messages = handleActions(
         [`${actions.messages.select}`](state, action) {
             return repos.messages.selectRoom(state, action.payload);
         },
+        [`${actions.messages.signIn}`](state, action) {
+            return repos.messages.signIn(state, action.payload);
+        },
         [`${actions.messages.switch}`](state, action) {
             return repos.messages.switchList(state, action.payload);
         },
@@ -63,4 +67,6 @@ const messages = handleActions(
     initialState
 );
 
-export {messages};
+export const createRootReducer = () => combineReducers({
+    Reducers,
+});

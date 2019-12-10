@@ -1,7 +1,7 @@
 import LoginTemplate from '../../templates/Login';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {actions} from '../../redux/actions';
+import {actions} from '../../modules/chat/index';
 
 const mapStateToProps = state => {
   return {

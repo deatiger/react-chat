@@ -13,6 +13,8 @@ class PasswordInput extends Component {
                 margin="normal"
                 label="パスワードを入力"
                 type="password"
+                onChange={(e) => this.props.onChange(e.target.value)}
+                value={this.props.password}
               />
             </form>
             </React.Fragment>

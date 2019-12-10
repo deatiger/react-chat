@@ -1,1 +1,1 @@
-export {default as LoginTemplate} from './Main';
+export {default as LoginContainer} from './Main';

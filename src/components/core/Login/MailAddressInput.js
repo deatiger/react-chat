@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import TextField from '@material-ui/core/TextField';
 
-class UsernameInput extends Component {
+class MailAddressInput extends Component {
     render() {
         return (
             <React.Fragment>
@@ -12,6 +12,8 @@ class UsernameInput extends Component {
                 className="col-12"
                 margin="normal"
                 label="ユーザー名を入力"
+                onChange={(e) => this.props.onChange(e.target.value)}
+                value={this.props.email}
               />
             </form>
             </React.Fragment>
@@ -19,4 +21,4 @@ class UsernameInput extends Component {
     }
 }
 
-export default UsernameInput;
+export default MailAddressInput;

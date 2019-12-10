@@ -5,12 +5,11 @@ import {RootContainer} from './containers';
 import {MuiThemeProvider} from '@material-ui/core/styles'
 import {theme} from './templates/theme'
 import * as serviceWorker from './serviceWorker';
-import {configureStore} from './redux';
-const store = configureStore();
+import {configureStore} from './modules';
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>
-        <Provider store={store}>
+        <Provider store={configureStore()}>
             <RootContainer />
         </Provider>
     </MuiThemeProvider>,

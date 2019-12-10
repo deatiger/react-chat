@@ -4,7 +4,7 @@ import {SendTo} from '../components/core';
 import {Common} from '../components/core';
 import {database} from '../firebase/index'
 
-class ConfigurationParent extends Component {
+class ConfigurationTemplate extends Component {
     constructor(props) {
         super(props);
         this.userValue = "";
@@ -224,4 +224,4 @@ class ConfigurationParent extends Component {
     }
 }
 
-export default ConfigurationParent
+export default ConfigurationTemplate

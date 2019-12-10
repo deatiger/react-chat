@@ -1,31 +1,35 @@
 import React, {Component} from 'react';
 import {Login} from '../components/core';
-import * as Common from "../components/core/Common";
-import {database} from '../firebase/index'
 
 class LoginTemplate extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            email: '',
+            password: ''
+        };
 
-    }
+        this.inputEmail = (value) => {
+            this.setState({
+                email: value
+            })
+        };
 
-    componentDidUpdate() {
-        const scrollArea = document.getElementById("scroll-area");
-        scrollArea.scrollTop = scrollArea.scrollHeight;
-    }
-
-    componentWillUnmount() {
-        if (this.props.messages.roomId !== "") {
-            return this.chatMemberRef.child(this.props.messages.userId).child(this.props.messages.roomId).off()
+        this.inputPassword = (value) => {
+            this.setState({
+                password: value
+            })
         }
+        console.log(this.props)
     }
 
     render() {
+
         return (
             <React.Fragment>
-                <Login.UsernameInput />
-                <Login.PasswordInput />
-                <Login.LoginButton />
+                <Login.MailAddressInput onChange={this.inputEmail}/>
+                <Login.PasswordInput onChange={this.inputPassword}/>
+                <Login.LoginButton email={this.state.email} password={this.state.password} signIn={this.props.actions.messages.signIn}/>
             </React.Fragment>
         );
     }

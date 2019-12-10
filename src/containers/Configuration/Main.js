@@ -1,7 +1,7 @@
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {actions} from '../../redux/actions';
-import ConfigurationParent from "../../templates/Configuration";
+import ConfigurationTemplate from "../../templates/Configuration";
+import {actions} from '../../modules/chat/index';
 
 const mapStateToProps = state => {
   return {
@@ -22,4 +22,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   )
-)(ConfigurationParent);
+)(ConfigurationTemplate);

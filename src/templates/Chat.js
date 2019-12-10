@@ -3,7 +3,7 @@ import {Chat} from '../components/core';
 import * as Common from "../components/core/Common";
 import {database} from '../firebase/index'
 
-class ChatParent extends Component {
+class ChatTemplate extends Component {
     constructor(props) {
         super(props);
         this.chatMemberRef = database.ref('chatRoomMember');
@@ -109,4 +109,4 @@ class ChatParent extends Component {
     }
 }
 
-export default ChatParent
+export default ChatTemplate

@@ -1,7 +1,7 @@
-import ChatParent from '../../templates/Chat';
+import ChatTemplate from '../../templates/Chat';
 import {bindActionCreators, compose} from 'redux';
 import {connect} from 'react-redux';
-import {actions} from '../../redux/actions';
+import {actions} from '../../modules/chat/index';
 
 const mapStateToProps = state => {
   return {
@@ -22,4 +22,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   )
-)(ChatParent);
+)(ChatTemplate);

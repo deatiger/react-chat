@@ -1,5 +1,5 @@
 import {initialState} from './initialState';
-import {createRootReducer} from '../reducers';
+import {createRootReducer} from '../chat/reducers';
 import {createStore} from 'redux';
 
 export const configureStore = () => {
