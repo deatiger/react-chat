@@ -10,13 +10,12 @@ class RootTemplate extends Component {
     }
 
     render() {
-        console.log(this.props)
         const isLogined = (this.props.messages.userId !== "");
         const isRoomSelected = (this.props.messages.roomId !== "");
         const isConfigured = (this.props.messages.isConfigured);
 
         return (
-            <div className="col-lg-9 col-md-10 col-sm-12 col-xs-12 c-grid__column">
+            <div className="c-grid">
                 {(!isLogined) && (
                 <div className="p-box__content">
                     <LoginContainer />

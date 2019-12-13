@@ -9,7 +9,7 @@ class TextInput extends Component {
             <form className="p-chat__textarea c-grid-center" noValidate autoComplete="off">
               <TextField
                 id="standard-text"
-                className="col-12"
+                className="c-grid-full"
                 margin="normal"
                 label="メッセージを入力..."
                 multiline

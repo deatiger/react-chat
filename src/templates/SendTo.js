@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {SendTo} from '../components/core';
 import {database} from '../firebase/index'
+import styles from '../style.css'
 
 class SendTemplate extends Component {
     constructor(props) {
         super(props);
-
         this.chatMemberRef = database.ref('chatRoomMember');
         this.chatRef = database.ref('chatRooms');
         this.userRef = database.ref('users');
@@ -202,7 +202,7 @@ class SendTemplate extends Component {
                             createRoom={this.props.actions.messages.create}
                             switchList={this.props.actions.messages.switch}
                         />
-                        <div className="p-chat__area-list">
+                        <div className="p-chat__area__list">
                             {(this.state.displayedUsers.length === 0) ? (
                                 <SendTo.Loading />
                             ) : (
@@ -220,7 +220,7 @@ class SendTemplate extends Component {
                             searchFunc={this.props.actions.messages.search}
                             switchList={this.props.actions.messages.switch}
                         />
-                        <div className="p-chat__area-list">
+                        <div className="p-chat__area__list">
                             {(this.props.messages.rooms.length === 0) ? (
                                 <SendTo.Loading />
                             ) : (

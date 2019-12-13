@@ -4,7 +4,7 @@ import {repos} from './index';
 import {initialState} from '../store/initialState';
 import {combineReducers} from 'redux';
 
-const Reducers = handleActions(
+const messages = handleActions(
     {
         [`${actions.messages.addMember}`](state, action) {
         return repos.messages.addMember(state, action.payload);
@@ -68,5 +68,5 @@ const Reducers = handleActions(
 );
 
 export const createRootReducer = () => combineReducers({
-    Reducers,
+    messages,
 });

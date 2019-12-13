@@ -19,8 +19,7 @@ class LoginTemplate extends Component {
             this.setState({
                 password: value
             })
-        }
-        console.log(this.props)
+        };
     }
 
     render() {

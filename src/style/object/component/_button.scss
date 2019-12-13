@@ -1,0 +1,55 @@
+.c-button {
+    display: block;
+    height: 4rem;
+    min-width: 12rem;
+    white-space: nowrap;
+
+    &:hover {
+        filter: alpha(opacity=70);
+        -moz-opacity: 0.7;
+        opacity: 0.7;
+    }
+}
+
+.c-button__auth {
+    align-items: center;
+    background: #ee6045;
+    border: 1px groove rgba(0,0,0,0.1);
+    border-collapse: collapse;
+    border-radius: 3px;
+    color: white;
+    padding: 0.75rem;
+}
+
+.c-button__image {
+    height: 4rem;
+    width: auto;
+
+    &:hover {
+        filter: alpha(opacity=70);
+        -moz-opacity: 0.7;
+        opacity: 0.7;
+    }
+}
+
+.c-button-small {
+    display: block;
+    height: 2.5rem;
+    min-width: 7rem;
+    white-space: nowrap;
+}
+
+.c-button__row {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 1rem .5rem;
+}
+
+@media screen and (max-width: 767px) {
+    .c-button__row {
+        flex-direction: column;
+        justify-content: center;
+    }
+}

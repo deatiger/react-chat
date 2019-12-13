@@ -1,4 +1,4 @@
-import {initialState} from './initialState';
+import {initialState} from './initialState.js';
 import {createRootReducer} from '../chat/reducers';
 import {createStore} from 'redux';
 

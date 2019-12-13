@@ -12,7 +12,6 @@ class NameInput extends Component {
                         margin="normal"
                         label="グループ名を変更する"
                         rowsMax="1"
-                        // onChange={e => this.props.onChange(e.target.value)}
                         onChange={e => this.props.onChange(e.target.value)}
                         value={this.props.name}
                     />

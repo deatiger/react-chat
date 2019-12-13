@@ -1,0 +1,149 @@
+.u-display-none {
+    display: none !important;
+}
+
+.u-display__bottom {
+    bottom: 1rem;
+    position: absolute;
+    height: 50px;
+}
+
+/* For Smart phone */
+@media screen and (max-width: 544px) {
+    .u-display-xs-none {
+        display: none !important;
+    }
+    .u-display-sm-none {
+        display: none !important;
+    }
+    .u-display-md-none {
+        display: none !important;
+    }
+    .u-display-lg-none {
+        display: none !important;
+    }
+    .u-display-xs-block {
+        display: block !important;
+    }
+    .u-display-sm-block {
+        display: block !important;
+    }
+    .u-display-md-block {
+        display: block !important;
+    }
+    .u-display-lg-block {
+        display: block !important;
+    }
+}
+
+/* For Smart phone */
+@media screen and (min-width: 545px) {
+    .u-display-xs-none {
+        display: block !important;
+    }
+    .u-display-sm-none {
+        display: none !important;
+    }
+    .u-display-md-none {
+        display: none !important;
+    }
+    .u-display-lg-none {
+        display: none !important;
+    }
+    .u-display-xs-block {
+        display: none !important;
+    }
+    .u-display-sm-block {
+        display: block !important;
+    }
+    .u-display-md-block {
+        display: block !important;
+    }
+    .u-display-lg-block {
+        display: block !important;
+    }
+}
+
+/* For Tablet (iPad etc...) and Landscape screen of Smart Phone */
+@media screen and (min-width: 768px) {
+    .u-display-xs-none {
+        display: block !important;
+    }
+    .u-display-sm-none {
+        display: block !important;
+    }
+    .u-display-md-none {
+        display: none !important;
+    }
+    .u-display-lg-none {
+        display: none !important;
+    }
+    .u-display-xs-block {
+        display: none !important;
+    }
+    .u-display-sm-block {
+        display: none !important;
+    }
+    .u-display-md-block {
+        display: block !important;
+    }
+    .u-display-lg-block {
+        display: block !important;
+    }
+}
+
+/* For Large Tablet (iPad Pro etc...) */
+@media screen and (min-width : 992px) {
+    .u-display-xs-none {
+        display: block !important;
+    }
+    .u-display-sm-none {
+        display: block !important;
+    }
+    .u-display-md-none {
+        display: block !important;
+    }
+    .u-display-lg-none {
+        display: none !important;
+    }
+    .u-display-xs-block {
+        display: none !important;
+    }
+    .u-display-sm-block {
+        display: none !important;
+    }
+    .u-display-md-block {
+        display: none !important;
+    }
+    .u-display-lg-block {
+        display: block !important;
+    }
+}
+
+/* For Desktop */
+@media screen and (min-width : 1200px) {
+    .u-display-xs-none {
+        display: block !important;
+    }
+    .u-display-sm-none {
+        display: block !important;
+    }
+    .u-display-md-none {
+        display: block !important;
+    }
+    .u-display-lg-none {
+        display: block !important;
+    }
+    .u-display-xs-block {
+        display: none !important;
+    }
+    .u-display-sm-block {
+        display: none !important;
+    }
+    .u-display-md-block {
+        display: none !important;
+    }
+    .u-display-lg-block {
+        display: block !important;
+    }
+}

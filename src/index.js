@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {RootContainer} from './containers';
+import {configureStore} from './modules';
 import {MuiThemeProvider} from '@material-ui/core/styles'
 import {theme} from './templates/theme'
 import * as serviceWorker from './serviceWorker';
-import {configureStore} from './modules';
 
 ReactDOM.render(
     <MuiThemeProvider theme={theme}>

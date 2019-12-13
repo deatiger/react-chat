@@ -1,0 +1,221 @@
+li div:has(.c-menu__area-scrollable) {
+    position: relative;
+}
+
+.c-menu__area-scrollable {
+    border: 1px solid rgba(0,0,0,0.2);
+    min-height: 20vh;
+    max-height: 50vh;
+    margin-top: 0.25rem;
+    overflow: auto;
+    padding: 0.5rem 0;
+    right: 2rem;
+    position: absolute;
+    width: 420px;
+}
+
+@media screen and (max-width: 575px) {
+    .c-menu__area-scrollable {
+        width: 312px;
+    }
+}
+
+.c-menu__hover {
+    align-items: center;
+    position: relative;
+
+    ul {
+        background: #ffffff;
+        border: 1px groove rgba(0, 0, 0, 0.2);
+        border-collapse: collapse;
+        opacity: 0;
+        position: absolute;
+        transition: all .2s ease;
+        visibility: hidden;
+        top: 2rem;
+        left: -2rem;
+        white-space: nowrap;
+        z-index: 1;
+        -webkit-transition: all .2s ease;
+
+        li {
+          background: #f7f9fb;
+          border: 1px groove rgba(0, 0, 0, 0.2);
+          border-collapse: collapse;
+          border-radius: 5px;
+          margin: 0.5rem;
+          padding: 0.5rem;
+
+              &:hover {
+                  filter: alpha(opacity=70);
+                  -moz-opacity: 0.7;
+                  opacity: 0.7;
+              }
+          }
+    }
+
+    &:hover ul {
+        opacity: 1;
+        /* Hover position */
+        top: 2rem;
+        left: -2rem;
+        visibility: visible;
+    }
+}
+
+
+.c-menu__hover__ballon-top {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 1.5em 0;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    margin-left: -15px;
+    border: 12px solid transparent;
+    border-bottom: 12px solid #ffffff;
+    z-index: 2;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: -29px;
+    left: 50%;
+    margin-left: -17px;
+    border: 14px solid transparent;
+    border-bottom: 14px solid rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  button {
+    background: #F7F9FB;
+    border: none;
+  }
+}
+
+.c-menu__hover-right {
+  align-items: center;
+  position: relative;
+
+  ul {
+    background: #ffffff;
+    border: 1px groove rgba(0, 0, 0, 0.2);
+    border-collapse: collapse;
+    opacity: 0;
+    position: absolute;
+    transition: all .2s ease;
+    visibility: hidden;
+    top: 1rem;
+    right: 0;
+    white-space: nowrap;
+    z-index: 1;
+    -webkit-transition: all .2s ease;
+
+    &:hover {
+      opacity: 1;
+      /* Hover position */
+      top: 1rem;
+      right: 0;
+      visibility: visible;
+    }
+
+    li {
+      background: #f7f9fb;
+      border: 1px groove rgba(0, 0, 0, 0.2);
+      border-collapse: collapse;
+      border-radius: 5px;
+      margin: 0.5rem;
+      padding: 0.5rem;
+
+      &:hover {
+        filter: alpha(opacity=70);
+        -moz-opacity: 0.7;
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+.c-menu__hover__ballon-right-top {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 1.5em 0;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -24px;
+    right: 2px;
+    margin-left: 0px;
+    border: 12px solid transparent;
+    border-bottom: 12px solid #ffffff;
+    z-index: 2;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: -29px;
+    right: 0;
+    margin-left: 0px;
+    border: 14px solid transparent;
+    border-bottom: 14px solid rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+}
+
+.c-menu__select-wrap {
+  position: relative;
+  width: 100%;
+
+  &:before {
+    z-index: 1;
+    position: absolute;
+    right: 15px;
+    top: 0;
+    content: "\f123";
+    font-family: "IonIcons";
+    line-height: 43px;
+    color: #7F878C;
+    pointer-events: none;
+  }
+
+  &.select-primary:before {
+    color: #fff;
+
+    select {
+      background: #0084B4;
+      color: #fff;
+      border-color: #0084B4;
+
+      &:-moz-focusring {
+        color: transparent;
+        text-shadow: 0 0 0 #fff;
+      }
+    }
+  }
+
+  &.select-inverse:before {
+    color: #fff;
+
+    select {
+      color: #fff;
+      border-color: #fff;
+
+      &:-moz-focusring {
+        color: transparent;
+        text-shadow: 0 0 0 #fff;
+      }
+    }
+  }
+}
