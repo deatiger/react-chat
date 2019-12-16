@@ -6,6 +6,9 @@ import {combineReducers} from 'redux';
 
 const messages = handleActions(
     {
+        [`${actions.messages.anonymousSignIn}`](state, action) {
+            return repos.messages.anonymousSignIn(state, action.payload);
+        },
         [`${actions.messages.addMember}`](state, action) {
         return repos.messages.addMember(state, action.payload);
         },
@@ -54,8 +57,14 @@ const messages = handleActions(
         [`${actions.messages.signIn}`](state, action) {
             return repos.messages.signIn(state, action.payload);
         },
+        [`${actions.messages.signOut}`](state, action) {
+            return repos.messages.signOut(state, action.payload);
+        },
         [`${actions.messages.switch}`](state, action) {
             return repos.messages.switchList(state, action.payload);
+        },
+        [`${actions.messages.twitterSignIn}`](state, action) {
+            return repos.messages.twitterSignIn(state, action.payload);
         },
         [`${actions.messages.mute}`](state, action) {
             return repos.messages.switchMute(state, action.payload);

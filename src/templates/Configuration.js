@@ -184,6 +184,7 @@ class ConfigurationTemplate extends Component {
                             userId={this.props.messages.userId}
                             selectedUsers={this.state.selectedUsers}
                             addMember={this.props.actions.messages.addMember}
+                            signOut={this.props.actions.messages.signOut}
                         />
                         <div className="p-chat__area-list">
                             {this.state.displayedUsers.map((m, i) => (

@@ -1,5 +1,9 @@
 import produce from 'immer';
 
+export const anonymousSignIn = (state, payload) => {
+    return produce(state, draftState => {});
+};
+
 export const addMember = (state, payload) => {
     if (!payload) {
         const newState = produce(state, draftState => {});
@@ -165,6 +169,14 @@ export const signIn = (state, payload) => {
     return newState;
 };
 
+export const signOut = (state, payload) => {
+    const newState = produce(state, draftState => {
+        draftState.userId = '';
+        draftState.userPhoto = '';
+    });
+    return newState;
+};
+
 export const switchList = (state, payload) => {
     const newState = produce(state, draftState => {
         draftState.isCreatePage = payload
@@ -179,9 +191,10 @@ export const switchMute = (state, payload) => {
     return newState;
 };
 
+export const twitterSignIn = (state, payload) => {
+    return produce(state, draftState => {});
+};
+
 export const uploadIcon = (state, payload) => {
-    const newState = produce(state, draftState => {
-        // draftState.isMute = payload
-    });
-    return newState;
+    return produce(state, draftState => {});
 };

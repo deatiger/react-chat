@@ -201,6 +201,7 @@ class SendTemplate extends Component {
                             selectedUsers={this.state.selectedUsers}
                             createRoom={this.props.actions.messages.create}
                             switchList={this.props.actions.messages.switch}
+                            signOut={this.props.actions.messages.signOut}
                         />
                         <div className="p-chat__area__list">
                             {(this.state.displayedUsers.length === 0) ? (
@@ -219,6 +220,7 @@ class SendTemplate extends Component {
                             isUserListHeader={this.props.messages.isCreatePage}
                             searchFunc={this.props.actions.messages.search}
                             switchList={this.props.actions.messages.switch}
+                            signOut={this.props.actions.messages.signOut}
                         />
                         <div className="p-chat__area__list">
                             {(this.props.messages.rooms.length === 0) ? (

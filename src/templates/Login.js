@@ -4,31 +4,16 @@ import {Login} from '../components/core';
 class LoginTemplate extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            email: '',
-            password: ''
-        };
-
-        this.inputEmail = (value) => {
-            this.setState({
-                email: value
-            })
-        };
-
-        this.inputPassword = (value) => {
-            this.setState({
-                password: value
-            })
-        };
     }
 
     render() {
 
         return (
             <React.Fragment>
-                <Login.MailAddressInput onChange={this.inputEmail}/>
-                <Login.PasswordInput onChange={this.inputPassword}/>
-                <Login.LoginButton email={this.state.email} password={this.state.password} signIn={this.props.actions.messages.signIn}/>
+                <div className="c-grid__column p-3">
+                    <Login.TwitterLoginButton signIn={this.props.actions.messages.twitterSignIn}/>
+                    <Login.AnonymousLoginButton signIn={this.props.actions.messages.anonymousSignIn}/>
+                </div>
             </React.Fragment>
         );
     }

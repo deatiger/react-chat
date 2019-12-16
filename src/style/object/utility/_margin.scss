@@ -1,3 +1,17 @@
+.u-margin {
+
+    &__left {
+        width: 3rem;
+        margin-right: auto;
+    }
+
+    &__right {
+        width: 3rem;
+        margin-left: auto;
+    }
+}
+
+
 @media screen and (max-width : 767px) { /* CSS for Smartphone */
     .u-margin__xs-b2 {
         margin-bottom: 0.5rem !important;

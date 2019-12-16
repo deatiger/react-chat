@@ -1,9 +1,17 @@
 import {createActions} from 'redux-actions';
-import {database, storage} from '../../firebase/index'
+import {database, firebaseApp, providerTwitter, storage} from '../../firebase/index'
 import {getDatetimeAsNumber, updateMultiPath} from '../../functions/index'
 
 export const actions = createActions({
     messages: {
+        anonymousSignIn() {
+            firebaseApp.auth().signInAnonymously()
+                .then(() => { return true })
+                .catch((error) => {
+                    console.error(error);
+                    return false
+                })
+        },
         addMember(selectedUsers, rooms) {
             if (selectedUsers.length === 0) {
                 alert('メンバーを選択してください');
@@ -260,6 +268,10 @@ export const actions = createActions({
         signIn(value) {
             return value
         },
+        signOut(value) {
+            firebaseApp.auth().signOut();
+            return value
+        },
         mute(value) {
             const payload = !value.isMute;
             try {
@@ -375,6 +387,13 @@ export const actions = createActions({
             }
 
             return payload
+        },
+        twitterSignIn() {
+            firebaseApp.auth().signInWithRedirect(providerTwitter);
+            firebaseApp.auth().getRedirectResult().then(async (result) => {
+                console.log("twitterSignIn() is successfully executed! ", result);
+                return true
+            })
         },
         upload(image, value) {
             const uploadRef = storage.ref('images').child(value.roomId);

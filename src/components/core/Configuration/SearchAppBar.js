@@ -8,6 +8,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -75,16 +76,23 @@ export default function SearchAppBar(props) {
               onChange={e => props.search(e.target.value, props.users)}
             />
           </div>
-            <IconButton
-                edge="end"
-                color="inherit"
-                aria-label="done"
-                onClick={() => {
-                  props.addMember(props.selectedUsers, props.value.rooms[props.value.roomId])
-                  props.back()
-                }}>
-              <span className="u-text-smaller">OK</span>
-            </IconButton>
+          <IconButton
+              aria-label="sign-out"
+              className="u-margin__right"
+              color="inherit"
+              onClick={() => {props.signOut()}} >
+            <ExitToAppIcon />
+          </IconButton>
+          <IconButton
+              aria-label="done"
+              color="inherit"
+              edge="end"
+              onClick={() => {
+                props.addMember(props.selectedUsers, props.value.rooms[props.value.roomId])
+                props.back()
+              }}>
+            <span className="u-text-smaller">OK</span>
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>

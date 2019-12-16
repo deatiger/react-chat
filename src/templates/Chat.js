@@ -80,9 +80,13 @@ class ChatTemplate extends Component {
                     </div>
                 ) : (
                 <div className="p-chat">
-                    <Common.NavBar value={this.props.messages}
-                                   back={this.props.actions.messages.backToRooms}
-                                   configure={this.props.actions.messages.configure}/>
+                    <Common.NavBar
+                        value={this.props.messages}
+                        actions={this.props.actions.messages}
+                        back={this.props.actions.messages.backToRooms}
+                        configure={this.props.actions.messages.configure}
+                        signOut={this.props.actions.messages.signOut}
+                    />
                     <div className="p-chat__area" id="scroll-area">
                         {this.props.messages.msgs.map((m, i) => (
                             <Chat.AlignItemsList key={i} msgs={m} />

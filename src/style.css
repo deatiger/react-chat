@@ -1161,8 +1161,7 @@ li div:has(.c-menu__area-scrollable) {
       .p-chat ul li .MuiListItemAvatar-alignItemsFlexStart {
         margin-top: 0; }
   .p-chat__area {
-    min-height: 75vh;
-    max-height: 85vh;
+    height: 75vh;
     margin: 0;
     padding: 0;
     overflow: auto;
@@ -1785,6 +1784,14 @@ li div:has(.c-menu__area-scrollable) {
     display: none !important; }
   .u-display-lg-block {
     display: block !important; } }
+
+.u-margin__left {
+  width: 3rem;
+  margin-right: auto; }
+
+.u-margin__right {
+  width: 3rem;
+  margin-left: auto; }
 
 @media screen and (max-width: 767px) {
   /* CSS for Smartphone */

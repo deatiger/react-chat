@@ -8,6 +8,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,6 +79,13 @@ export default function SearchAppBar(props) {
               onChange={e => props.searchFunc(e.target.value, props.value)}
             />
           </div>
+          <IconButton
+              aria-label="sign-out"
+              className="u-margin__right"
+              color="inherit"
+              onClick={() => {props.signOut()}} >
+            <ExitToAppIcon />
+          </IconButton>
           {(props.isUserListHeader) ? (
               <IconButton
                   edge="end"
