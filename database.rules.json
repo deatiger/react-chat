@@ -3,11 +3,7 @@
   "rules": {
     ".read": false,
     ".write": false,
-    "chatRooms": {
-      ".read": "auth !== null",
-      ".write": "auth !== null"
-    },
-    "chatRoomMember": {
+    "chatRoom": {
       ".read": "auth !== null",
       ".write": "auth !== null"
     },

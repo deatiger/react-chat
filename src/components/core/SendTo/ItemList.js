@@ -18,8 +18,6 @@ class AlignItemsList extends Component {
                 display: 'inline',
             },
         }));
-
-        console.log(this.props)
     }
 
     render() {

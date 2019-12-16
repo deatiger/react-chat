@@ -34,19 +34,18 @@ export const actions = createActions({
             let updateJson = {};
             for (let memberId of userIds) {
                 if (selectedUsers.includes(memberId)) {
-                    const memberPath = `chatRoomMember/${memberId}/${roomId}`;
+                    const memberPath = `chatRoom/${memberId}/${roomId}`;
                     const datetime = getDatetimeAsNumber();
                     updateJson[memberPath] = {
-                        group_icon: rooms.image,
-                        made_room_user_id: ownerId,
+                        room_icon: rooms.image,
+                        owner_id: ownerId,
                         name: rooms.name,
-                        room_id: roomId,
                         updated_at: datetime,
                         updated_at_minus: -datetime,
                         user_ids: memberJson,
                     };
                 } else {
-                    const memberPath = `chatRoomMember/${memberId}/${roomId}/user_ids`;
+                    const memberPath = `chatRoom/${memberId}/${roomId}/user_ids`;
                     updateJson[memberPath] = memberJson
                 }
             }
@@ -61,8 +60,7 @@ export const actions = createActions({
             return true
         },
         change(value) {
-            const payload = value;
-            return payload;
+            return value
         },
         configure() {
             return true
@@ -72,42 +70,34 @@ export const actions = createActions({
                 alert('メンバーを選択してください');
                 return false
             }
-            const chatMemberRef = database.ref('chatRoomMember');
-            const chatRoomRef = database.ref('chatRooms');
+            const chatRoomRef = database.ref('chatRoom');
 
             const currentTime = getDatetimeAsNumber();
             let roomJson = {
-                made_room_user_id: userId,
-                update_at: currentTime,
-                update_at_minus: -(currentTime),
+                owner_id: userId,
+                updated_at: currentTime,
+                updated_at_minus: -(currentTime),
             };
-            let newRoomId = "";
             let room = {};
 
             if (selectedUsers.length === 1) {
                 // Verify the chat room with the same partner has already existed or not.
                 for (let roomId of Object.keys(rooms)) {
-                    if (rooms[roomId].partnerId === selectedUsers[0]) {
+                    if (rooms[roomId].userIds.includes(selectedUsers[0])) {
                         alert('すでに同じ相手とのチャットルームが存在しています。');
                         return false
                     }
                 }
 
                 try {
-                    roomJson['partner_id'] = selectedUsers[0];
-                    const newRoomRef = chatMemberRef.child(userId).push(roomJson);
-                    newRoomId = newRoomRef.key;
-                    roomJson['room_id'] = newRoomId
+                    roomJson['user_ids'] = {
+                        [userId]: userId,
+                        [selectedUsers[0]]: userId,
+                    };
 
-                    // Update again to add "room_id" field
-                    chatMemberRef.child(userId).child(newRoomId).update(roomJson);
+                    const newRoom = chatRoomRef.child(userId).push(roomJson);
+                    chatRoomRef.child(selectedUsers[0]).child(newRoom.key).update(roomJson);
 
-                    // Update partner chat room
-                    roomJson['partner_id'] = userId;
-                    chatMemberRef.child(selectedUsers[0]).child(newRoomId).update(roomJson);
-
-                    // Create chat room
-                    chatRoomRef.child(newRoomId).update({is_mute: false});
                     alert('チャットルームを作成しました。')
                     return {partnerId: selectedUsers[0]};
                 } catch (e) {
@@ -117,20 +107,16 @@ export const actions = createActions({
                 }
             } else if (selectedUsers.length > 1) {
                 try {
+                    let updateJson = {};
                     // Add default
-                    roomJson['name'] = (groupName) ? groupName : "名称未設定";
-                    roomJson['group_icon'] = (groupIcon) ? groupIcon : "https://firebasestorage.googleapis.com/v0/b/energeia-ad20f.appspot.com/o/images%2Fsrc%2Fico_default_profile.png?alt=media&token=a194e129-bc4b-4820-b367-cb892232beb8"
+                    roomJson['name'] = "名称未設定";
+                    roomJson['room_icon'] = "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-image-square.png?alt=media&token=03d04110-aab2-4c03-9779-2293f40bb463"
 
-                    const newRoomRef = chatRoomRef.push(roomJson);
-                    newRoomId = newRoomRef.key;
-                    roomJson['room_id'] = newRoomId;
-                    const roomPath = `/chatRooms/${newRoomId}/room_id`;
-                    let updateJson = {[roomPath]: newRoomId};
+                    const newRoom = chatRoomRef.child(userId).push(roomJson);
 
                     // Add user IDs
                     roomJson['is_mute'] = false;
-                    roomJson['user_ids'] = {};
-                    selectedUsers.push(userId);
+                    roomJson['user_ids'] = {[userId]: userId};
 
                     for (let selectedUser of selectedUsers) {
                         roomJson['user_ids'][selectedUser] = userId;
@@ -138,14 +124,17 @@ export const actions = createActions({
 
                     // Add room data to each user's room
                     for (let selectedUser of selectedUsers) {
-                        const userRoomPath = `/chatRoomMember/${selectedUser}/${newRoomId}`;
+                        const userRoomPath = `/chatRoom/${selectedUser}/${newRoom.key}`;
                         updateJson[userRoomPath] = roomJson
                     }
 
+                    updateMultiPath(updateJson)
+                    alert('チャットルームを作成しました。')
+
                     room = {
-                        image: (groupIcon) ? groupIcon : "https://firebasestorage.googleapis.com/v0/b/energeia-ad20f.appspot.com/o/images%2Fsrc%2Fico_default_profile.png?alt=media&token=a194e129-bc4b-4820-b367-cb892232beb8",
-                        name: (groupName) ? groupName : "名称未設定",
-                        id: newRoomId,
+                        image: "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-image-square.png?alt=media&token=03d04110-aab2-4c03-9779-2293f40bb463",
+                        name: "名称未設定",
+                        id: newRoom.key,
                         msgs: [],
                         isMute: false,
                         ownerId: userId,
@@ -153,13 +142,10 @@ export const actions = createActions({
                         userIds: selectedUsers,
                     };
 
-                    updateMultiPath(updateJson)
-                    alert('チャットルームを作成しました。')
                     return {
                         room: room,
-                        roomId: newRoomId,
-                        partnerId: (selectedUsers.length === 1) ? selectedUsers[0] : "",
-                        userIds: (selectedUsers.length > 1) ? selectedUsers : "",
+                        roomId: newRoom.key,
+                        userIds: Object.keys(roomJson['user_ids'])
                     };
                 } catch (e) {
                     console.error(e);
@@ -173,19 +159,11 @@ export const actions = createActions({
             if (!ret) {
                 return false
             } else {
-                let userIds = [];
-                if (value.partnerId !== '') {
-                    userIds.push(value.userId)
-                    userIds.push(value.partnerId)
-                } else {
-                    userIds = value.userIds
-                }
-
-                const roomPath = `/chatRooms/${value.roomId}`;
-                let deleteJson = {[roomPath]: null};
+                let userIds = value.userIds;
+                let deleteJson = {};
 
                 for (let userId of userIds) {
-                    const userRoomPath = `/chatRoomMember/${userId}/${value.roomId}`;
+                    const userRoomPath = `/chatRoom/${userId}/${value.roomId}`;
                     deleteJson[userRoomPath] = null
                 }
 
@@ -203,27 +181,17 @@ export const actions = createActions({
                 const userId = value.userId;
                 let updateJson = {};
 
-                if (value.userIds.length === 1) {
-                    // Delete chat room by itself
-                    const chatRoomPath = `/chatRooms/${roomId}`;
-                    const myRoomPath = `/chatRoomMember/${userId}/${roomId}`;
-                    updateJson[chatRoomPath] = null;
-                    updateJson[myRoomPath] = null;
-                } else {
-                    // Delete chat room from the current user
-                    const chatRoomPath = `/chatRooms/${roomId}/user_ids/${userId}`;
-                    const myRoomPath = `/chatRoomMember/${userId}/${roomId}`;
-                    updateJson[chatRoomPath] = null;
-                    updateJson[myRoomPath] = null;
+                // Delete chat room from the current user
+                const myRoomPath = `/chatRoom/${userId}/${roomId}`;
+                updateJson[myRoomPath] = null;
 
-                    // Remove the current user from the members of chat room.
-                    for (let memberId of value.userIds) {
-                        if (memberId === userId) {
-                            continue
-                        }
-                        const memberRoomPath = `/chatRoomMember/${memberId}/${roomId}/user_ids/${userId}`;
-                        updateJson[memberRoomPath] = null
+                // Remove the current user from the members of chat room.
+                for (let memberId of value.userIds) {
+                    if (memberId === userId) {
+                        continue
                     }
+                    const memberRoomPath = `/chatRoom/${memberId}/${roomId}/user_ids/${userId}`;
+                    updateJson[memberRoomPath] = null
                 }
 
                 updateMultiPath(updateJson);
@@ -240,9 +208,7 @@ export const actions = createActions({
                 let updateJson = {};
 
                 // Delete chat room from the current user
-                const chatRoomPath = `/chatRooms/${roomId}/user_ids/${targetId}`;
-                const targetRoomPath = `/chatRoomMember/${targetId}/${roomId}`;
-                updateJson[chatRoomPath] = null;
+                const targetRoomPath = `/chatRoom/${targetId}/${roomId}`;
                 updateJson[targetRoomPath] = null;
 
                 // Remove the current user from the members of chat room.
@@ -250,7 +216,7 @@ export const actions = createActions({
                     if (memberId === targetId) {
                         continue
                     }
-                    const memberRoomPath = `/chatRoomMember/${memberId}/${roomId}/user_ids/${targetId}`;
+                    const memberRoomPath = `/chatRoom/${memberId}/${roomId}/user_ids/${targetId}`;
                     updateJson[memberRoomPath] = null
                 }
 
@@ -260,10 +226,6 @@ export const actions = createActions({
         },
         inputGroupName(value) {
             return value;
-        },
-        listen(value) {
-            const payload = value;
-            return payload
         },
         signIn(value) {
             return value
@@ -275,7 +237,7 @@ export const actions = createActions({
         mute(value) {
             const payload = !value.isMute;
             try {
-                database.ref('chatRoomMember').child(value.userId).child(value.roomId).update({is_mute: payload})
+                database.ref('chatRoom').child(value.userId).child(value.roomId).update({is_mute: payload})
             } catch (e) {
                 console.error(e)
             }
@@ -288,19 +250,11 @@ export const actions = createActions({
             } else {
                 const newName = storeState.roomName;
                 const roomId = storeState.roomId;
-                const roomPath = `/chatRooms/${roomId}/name`
-                let updateJson = {[roomPath]: newName};
-
-                let userIds = [];
-                if (storeState.partnerId !== '') {
-                    userIds.push(storeState.userId)
-                    userIds.push(storeState.partnerId)
-                } else {
-                    userIds = storeState.userIds
-                }
+                const userIds = storeState.userIds;
+                let updateJson = {};
 
                 for (let userId of userIds) {
-                    const userRoomPath = `/chatRoomMember/${userId}/${roomId}/name`;
+                    const userRoomPath = `/chatRoom/${userId}/${roomId}/name`;
                     updateJson[userRoomPath] = newName
                 }
 
@@ -310,12 +264,11 @@ export const actions = createActions({
         },
         select(value, userId) {
             // Change isRead flag
-            const targetRoom = database.ref('/chatRoomMember').child(userId).child(value.id).child('messages');
+            const targetRoom = database.ref('chatRoom').child(userId).child(value.id).child('messages');
             targetRoom.orderByChild('isRead').equalTo(false).on('child_added', (snapshot) => {
                 targetRoom.child(snapshot.key).update({isRead: true});
             });
-            const payload = value;
-            return payload
+            return value
         },
         search(word, rooms) {
             let newRooms = {};
@@ -338,8 +291,7 @@ export const actions = createActions({
             return newRooms
         },
         switch(boolean) {
-            const payload = !boolean;
-            return payload
+            return !boolean
         },
         submit(value, roomId, fromId, toId, memberIds) {
             const payload = value;
@@ -348,7 +300,6 @@ export const actions = createActions({
                 return false;
             }
 
-            const isPrivate = (toId !== "" && memberIds === "");
             const datetime = getDatetimeAsNumber();
             const messageJson = {
                 from_id: fromId,
@@ -358,32 +309,15 @@ export const actions = createActions({
                 send_at_minutes: -datetime
             };
 
-            if (isPrivate) {
-                messageJson['to_id'] = toId
-            }
+            const newMessage = database.ref('chatRoom').child(fromId).child(roomId).child('messages').push(messageJson);
+            const messagePath = `messages/${newMessage.key}`;
 
-            const pushRef = database.ref('chatRooms').child(roomId).push(messageJson);
-            const messagePath = `messages/${pushRef.key}`;
-
-            if (isPrivate) {
-                database.ref('chatRoomMember').child(`${fromId}/${roomId}`).update({
+            for (let memberId of memberIds) {
+                database.ref('chatRoom').child(memberId).child(roomId).update({
                     [messagePath]: messageJson,
-                    update_at: datetime,
-                    update_at_minus: -datetime
+                    updated_at: datetime,
+                    updated_at_minus: -datetime
                 });
-                database.ref('chatRoomMember').child(`${toId}/${roomId}`).update({
-                    [messagePath]: messageJson,
-                    update_at: datetime,
-                    update_at_minus: -datetime
-                });
-            } else {
-                for (let memberId of memberIds) {
-                    database.ref('chatRoomMember').child(`${memberId}/${roomId}`).update({
-                        [messagePath]: messageJson,
-                        update_at: datetime,
-                        update_at_minus: -datetime
-                    });
-                }
             }
 
             return payload
@@ -417,10 +351,9 @@ export const actions = createActions({
                 // Handle successful uploads on complete
                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                     console.log('File available at', downloadURL);
-                    const roomPath = `chatRooms/${value.roomId}/group_icon`;
-                    let updateJson = {[roomPath]: downloadURL};
+                    let updateJson = {};
                     for (let userId of value.userIds) {
-                        const userRoomPath = `chatRoomMember/${userId}/${value.roomId}/group_icon`
+                        const userRoomPath = `chatRoom/${userId}/${value.roomId}/room_icon`;
                         updateJson[userRoomPath] = downloadURL
                     }
                     updateMultiPath(updateJson);

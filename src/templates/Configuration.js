@@ -84,7 +84,7 @@ class ConfigurationTemplate extends Component {
 
             if (isPrivate) {
                 const partnerValue = await queryUserValue(roomValue.partner_id);
-                roomName = partnerValue.nickname;
+                roomName = partnerValue.name;
                 roomIcon = (partnerValue.photoPath) ? partnerValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/energeia-ad20f.appspot.com/o/images%2Fsrc%2Ficon_prof.png?alt=media&token=12803b38-3ab9-467b-9215-e3c19d6c34fa"
             } else {
                 roomName = roomValue.name;
@@ -114,7 +114,7 @@ class ConfigurationTemplate extends Component {
                 id: roomId,
                 msgs: msgs,
                 isMute: isMute,
-                ownerId: (roomValue.made_room_user_id) ? roomValue.made_room_user_id : "",
+                ownerId: (roomValue.owner_id) ? roomValue.owner_id : "",
                 partnerId: (isPrivate) ? roomValue.partner_id : "",
                 userIds: (isPrivate) ? "" : Object.keys(roomValue.user_ids),
             };
@@ -139,7 +139,7 @@ class ConfigurationTemplate extends Component {
             }
         };
 
-        database.ref('chatRoomMember').child(this.props.messages.userId).orderByChild('update_at_minus').on('child_changed', async (snapshot) => {
+        database.ref('chatRoom').child(this.props.messages.userId).orderByChild('update_at_minus').on('child_changed', async (snapshot) => {
             changeRooms(snapshot, "CHANGE")
         });
 
@@ -148,7 +148,7 @@ class ConfigurationTemplate extends Component {
             const userValue = snapshot.val();
             const userJson = {
                 id: userId,
-                name: userValue.nickname,
+                name: userValue.name,
                 image: (userValue.photoPath) ? userValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/energeia-ad20f.appspot.com/o/images%2Fsrc%2Ficon_prof.png?alt=media&token=12803b38-3ab9-467b-9215-e3c19d6c34fa",
             };
 
@@ -162,18 +162,14 @@ class ConfigurationTemplate extends Component {
     }
 
     componentWillUnmount() {
-        database.ref('chatRoomMember').child(this.props.messages.userId).off()
+        database.ref('chatRoom').child(this.props.messages.userId).off()
         return database.ref('users').orderByKey().off()
     }
 
     render() {
         return (
             <React.Fragment>
-                {(this.props.messages.roomId === "") && (
-                    <div className="p-chat">
-                    </div>
-                )}
-                {(this.props.messages.roomId !== "" && this.state.isMemberEdited) && (
+                {(this.state.isMemberEdited) ? (
                     <div className="p-chat">
                         <Configuration.SearchAppBar
                             users={Object.values(this.props.messages.userValues)}
@@ -192,8 +188,7 @@ class ConfigurationTemplate extends Component {
                             ))}
                         </div>
                     </div>
-                )}
-                {(this.props.messages.roomId !== "" && !this.state.isMemberEdited) && (
+                ) : (
                     <div className="p-chat">
                         <Common.NavBar
                             value={this.props.messages}

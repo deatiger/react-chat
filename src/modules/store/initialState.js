@@ -9,9 +9,7 @@ export const initialState = {
     displayedUsers : [], // [...userId]fs
     userValues: {}, // {key: userId, value: {userId, image, name}}
     msgs: [],
-    partnerId: '',
     isCreatePage: false,
-    isListenerSet: false,
     isConfigured: false,
     isMute: false,
     selected: '',

@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import {SendTo} from '../components/core';
 import {database} from '../firebase/index'
-import styles from '../style.css'
 
 class SendTemplate extends Component {
     constructor(props) {
         super(props);
-        this.chatMemberRef = database.ref('chatRoomMember');
-        this.chatRef = database.ref('chatRooms');
+        this.chatMemberRef = database.ref('chatRoom');
         this.userRef = database.ref('users');
         this.specifiedUserId = window.location.search.split('?partnerId=')[1];
 
@@ -62,34 +60,36 @@ class SendTemplate extends Component {
     }
 
     async componentDidMount() {
-        const queryUserValue = (id) => {
+        const queryUserPhoto = (id) => {
             return new Promise(resolve => {
                 return this.userRef.child(id).once('value', (snapshot) => {
-                    return resolve(snapshot.val())
+                    const userPhoto = (snapshot.val().photoPath) ? snapshot.val().photoPath : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
+                    return resolve(userPhoto)
                 })
             })
         };
 
         const changeRooms = async (snapshot, type) => {
-            const roomId = snapshot.key;
-            const roomValue = snapshot.val();
-            const isPrivate = (!roomValue.name);
+            const roomId = snapshot.key,
+                roomValue = snapshot.val(),
+                roomName = (roomValue.name) ? roomValue.name : "",
+                userIds = Object.keys(roomValue.user_ids);
 
-            let roomName = "",
-                roomIcon = "";
+            let rooms = this.props.messages.rooms,
+                displayedRooms = this.props.messages.displayedRooms,
+                isMute = false,
+                msgs = [],
+                hasNotRead = 0,
+                icon = (roomValue.room_icon) ? roomValue.room_icon : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-image-square.png?alt=media&token=03d04110-aab2-4c03-9779-2293f40bb463";
 
-            if (isPrivate) {
-                const partnerValue = await queryUserValue(roomValue.partner_id);
-                roomName = partnerValue.nickname;
-                roomIcon = (partnerValue.photoPath) ? partnerValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/energeia-ad20f.appspot.com/o/images%2Fsrc%2Ficon_prof.png?alt=media&token=12803b38-3ab9-467b-9215-e3c19d6c34fa"
-            } else {
-                roomName = roomValue.name;
-                roomIcon = roomValue.group_icon;
+            if (userIds.length === 2) {
+                for (let userId of userIds) {
+                    if (userId === this.props.messages.userId) continue;
+                    icon = await queryUserPhoto(userId)
+                }
             }
 
             // Add message data to each room
-            let msgs = [];
-            let hasNotRead = 0;
             if (roomValue.messages) {
                 for (let messageKey of Object.keys(roomValue.messages)) {
                     const messageValue = roomValue.messages[messageKey];
@@ -102,22 +102,19 @@ class SendTemplate extends Component {
                 }
             }
 
-            let rooms = this.props.messages.rooms;
-            let displayedRooms = this.props.messages.displayedRooms;
-            let isMute = false;
             if (roomValue.is_mute) {
                 isMute = true
             }
+
             const roomJson = {
-                image: roomIcon,
+                image: icon,
                 name: roomName,
                 hasNotRead: hasNotRead,
                 id: roomId,
                 msgs: msgs,
                 isMute: isMute,
-                ownerId: (roomValue.made_room_user_id) ? roomValue.made_room_user_id : "",
-                partnerId: (isPrivate) ? roomValue.partner_id : "",
-                userIds: (isPrivate) ? "" : Object.keys(roomValue.user_ids),
+                ownerId: roomValue.owner_id,
+                userIds: Object.keys(roomValue.user_ids),
             };
 
             if (type === "ADD") {
@@ -129,10 +126,6 @@ class SendTemplate extends Component {
                     displayedRooms: displayedRooms,
                 });
 
-                // When partner id is specified in the parameter of URL.
-                if (this.specifiedUserId && this.specifiedUserId === roomValue.partner_id) {
-                    this.props.actions.messages.select(this.props.messages.rooms[roomId], this.props.messages.userId)
-                }
             } else if (type === "CHANGE") {
                 const newRooms = this.state.rooms;
                 const newDisplayedRooms = this.state.displayedRooms;
@@ -166,8 +159,8 @@ class SendTemplate extends Component {
             const userValue = snapshot.val();
             const userJson = {
                 id: userId,
-                name: userValue.nickname,
-                image: (userValue.photoPath) ? userValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/energeia-ad20f.appspot.com/o/images%2Fsrc%2Ficon_prof.png?alt=media&token=12803b38-3ab9-467b-9215-e3c19d6c34fa",
+                name: userValue.name,
+                image: (userValue.photoPath) ? userValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b",
             };
 
             let userValues = this.props.messages.userValues;

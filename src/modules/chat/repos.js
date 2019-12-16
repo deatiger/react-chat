@@ -6,8 +6,8 @@ export const anonymousSignIn = (state, payload) => {
 
 export const addMember = (state, payload) => {
     if (!payload) {
-        const newState = produce(state, draftState => {});
-        return newState;
+        // Cancel the action to add new members
+        return produce(state, draftState => {});
     } else {
         const newState = produce(state, draftState => {
             draftState.userIds = payload
@@ -32,10 +32,8 @@ export const backToChat = (state, payload) => {
 
 export const backToRooms = (state, payload) => {
     const newState = produce(state, draftState => {
-        draftState.isListenerSet = false;
         draftState.isMute = false;
         draftState.msgs = [];
-        draftState.partnerId = '';
         draftState.roomId = '';
         draftState.selected = '';
         draftState.userIds = '';
@@ -60,9 +58,8 @@ export const changeText = (state, payload) => {
 export const createRoom = (state, payload) => {
     if (!payload) {
         return produce(state, draftState => {});
-    } else if (payload.partnerId === "") {
+    } else {
         const newState = produce(state, draftState => {
-            draftState.isListenerSet = false;
             draftState.isCreatePage = false;
             draftState.isConfigured = true;
             draftState.msgs = [];
@@ -70,12 +67,9 @@ export const createRoom = (state, payload) => {
             draftState.displayedRooms[payload.roomId] = payload.room;
             draftState.selected = "GROUP";
             draftState.roomId = payload.roomId;
-            draftState.partnerId = payload.partnerId;
             draftState.userIds = payload.userIds;
         });
         return newState;
-    } else {
-        return window.location.replace(`/message?partnerId=${payload.partnerId}`)
     }
 };
 
@@ -115,8 +109,8 @@ export const inputGroupName = (state, payload) => {
 
 export const renameGroup = (state, payload) => {
     if (!payload) {
-        const newState = produce(state, draftState => {});
-        return newState;
+        // Cancel the action to rename group
+        return produce(state, draftState => {});
     } else {
         const newState = produce(state, draftState => {
             draftState.rooms[draftState.roomId].name = payload
@@ -135,28 +129,19 @@ export const searchMessage = (state, payload) => {
 
 export const selectRoom = (state, payload) => {
     let selected = "";
-    if (payload.partnerId !== "" && payload.userIds === "") {
+    if (payload.userIds.lenght === 2) {
         selected = "PRIVATE"
-    } else if (payload.partnerId === "" && payload.userIds !== "") {
+    } else {
         selected = "GROUP"
     }
 
     const newState = produce(state, draftState => {
-        draftState.isListenerSet = false;
         draftState.isMute = payload.isMute;
         draftState.msgs = [];
-        draftState.partnerId = payload.partnerId;
         draftState.roomId = payload.id;
         draftState.roomName = payload.name;
         draftState.selected = selected;
         draftState.userIds = payload.userIds;
-    });
-    return newState;
-};
-
-export const setListener = (state, payload) => {
-    const newState = produce(state, draftState => {
-        draftState.isListenerSet = payload
     });
     return newState;
 };

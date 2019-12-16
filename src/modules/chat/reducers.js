@@ -42,9 +42,6 @@ const messages = handleActions(
         [`${actions.messages.inputGroupName}`](state, action) {
             return repos.messages.inputGroupName(state, action.payload);
         },
-        [`${actions.messages.listen}`](state, action) {
-            return repos.messages.setListener(state, action.payload);
-        },
         [`${actions.messages.rename}`](state, action) {
             return repos.messages.renameGroup(state, action.payload);
         },
