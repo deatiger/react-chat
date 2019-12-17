@@ -51,14 +51,16 @@ class LoginTemplate extends Component {
             })
         };
 
-        const createDefaultRoom = (userId) => {
+        const createDefaultRoom = (user) => {
             return new Promise((resolve, reject) => {
                 const now = getDatetimeAsNumber();
+                const userId = user.uid
+                const userName = (user.displayName) ? user.displayName: user.email;
                 const businessAccountId = "JIZiG0O1cpfaO3EqFkRQLPeZL2H3";
                 const chatAccountId = "cbaRWL7y0xR4VXoXxzpUnkFaoRv1";
 
                 const businessTalk = {
-                    name: "お仕事用チャット",
+                    name: `${userName}さんのお仕事用チャット`,
                     owner_id: businessAccountId,
                     updated_at: now,
                     updated_at_minus: -now,
@@ -78,7 +80,7 @@ class LoginTemplate extends Component {
                 };
 
                 const smallTalk = {
-                    name: "雑談用チャット",
+                    name: `${userName}さんの雑談用チャット`,
                     owner_id: chatAccountId,
                     updated_at: now,
                     updated_at_minus: -now,
@@ -98,7 +100,7 @@ class LoginTemplate extends Component {
                 };
 
                 const groupTalk = {
-                    name: "グループチャット",
+                    name: `${userName}さんのグループチャット`,
                     owner_id: userId,
                     room_icon: "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-image-square.png?alt=media&token=03d04110-aab2-4c03-9779-2293f40bb463",
                     updated_at: now,
@@ -112,7 +114,7 @@ class LoginTemplate extends Component {
                         DEFAULTMESSAGES: {
                             from_id: businessAccountId,
                             isRead: false,
-                            message: "ここはあなたがオーナーのグループチャットです！\n右上の設定ボタンからグループの情報を変更してみてね。",
+                            message: `ここは${userName}さんがオーナーのグループチャットです！\n右上の設定ボタンからグループの情報を変更してみてね。`,
                             send_at: now,
                             send_at_minus: -now
                         }
@@ -154,7 +156,7 @@ class LoginTemplate extends Component {
                 // When this is the first login for the user
                 if (!Object.keys(users.val()).includes(userId)) {
                     await createUserValue(user);
-                    await createDefaultRoom(userId);
+                    await createDefaultRoom(user);
                     userPhoto = (user.photoURL) ? user.photoURL.replace( "_normal", "" ) : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
                 } else {
                     const snapshot = await queryUserValue(userId);
