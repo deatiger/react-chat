@@ -13,19 +13,25 @@ class LoginTemplate extends Component {
             return database.ref('users').once('value', (snapshot) => { return snapshot })
         };
 
-        const createUserValue = async (id) => {
+        const queryUserValue = async (id) => {
+            return database.ref('users').child(id).once('value', (snapshot) => { return snapshot })
+        };
+
+        const createUserValue = async (user) => {
+            console.log(user.photoURL);
             return database.ref('users').update({
-                [id]: {
-                    photoPath: "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
+                [user.uid]: {
+                    name: user.displayName,
+                    photoPath: (user.photoURL) ? user.photoURL.replace( "_normal", "" ) : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
                 }
             })
         };
 
         const createDefaultRoom = (userId) => {
             return new Promise((resolve, reject) => {
-                const now = getDatetimeAsNumber()
-                const businessAccountId = "JIZiG0O1cpfaO3EqFkRQLPeZL2H3"
-                const chatAccountId = "cbaRWL7y0xR4VXoXxzpUnkFaoRv1"
+                const now = getDatetimeAsNumber();
+                const businessAccountId = "JIZiG0O1cpfaO3EqFkRQLPeZL2H3";
+                const chatAccountId = "cbaRWL7y0xR4VXoXxzpUnkFaoRv1";
 
                 const businessTalk = {
                     name: "お仕事用チャット",
@@ -35,6 +41,15 @@ class LoginTemplate extends Component {
                     user_ids: {
                         [businessAccountId]: businessAccountId,
                         [userId]: businessAccountId
+                    },
+                    messages: {
+                        DEFAULTMESSAGES: {
+                            from_id: businessAccountId,
+                            isRead: false,
+                            message: "お仕事の依頼はこちらのチャットでお願いします！\n匿名アカウントからの依頼は受け付けていません。",
+                            send_at: now,
+                            send_at_minus: -now
+                        }
                     }
                 };
 
@@ -46,19 +61,37 @@ class LoginTemplate extends Component {
                     user_ids: {
                         [chatAccountId]: chatAccountId,
                         [userId]: chatAccountId
+                    },
+                    messages: {
+                        DEFAULTMESSAGES: {
+                            from_id: chatAccountId,
+                            isRead: false,
+                            message: "チャット機能を試してみたい人はここで雑談しましょう！\n匿名アカウントじゃなければ、トラハックが気が向いたら返信します。",
+                            send_at: now,
+                            send_at_minus: -now
+                        }
                     }
                 };
 
                 const groupTalk = {
                     name: "グループチャット",
-                    owner_id: businessAccountId,
+                    owner_id: userId,
                     room_icon: "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-image-square.png?alt=media&token=03d04110-aab2-4c03-9779-2293f40bb463",
                     updated_at: now,
                     updated_at_minus: -now,
                     user_ids: {
-                        [businessAccountId]: businessAccountId,
-                        [chatAccountId]: businessAccountId,
-                        [userId]: businessAccountId
+                        [userId]: userId,
+                        [businessAccountId]: userId,
+                        [chatAccountId]: userId
+                    },
+                    messages: {
+                        DEFAULTMESSAGES: {
+                            from_id: businessAccountId,
+                            isRead: false,
+                            message: "ここはあなたがオーナーのグループチャットです！\n右上の設定ボタンからグループの情報を変更してみてね。",
+                            send_at: now,
+                            send_at_minus: -now
+                        }
                     }
                 };
                 try {
@@ -71,6 +104,7 @@ class LoginTemplate extends Component {
                     const smallTalkPath = `chatRoom/${chatAccountId}/${smallTalkRoom.key}`;
                     const groupTalkPath = `chatRoom/${businessAccountId}/${groupTalkRoom.key}`;
                     const groupTalkPath2 = `chatRoom/${chatAccountId}/${groupTalkRoom.key}`;
+
                     updateMultiPath({
                         [businessTalkPath]: businessTalk,
                         [smallTalkPath]: smallTalk,
@@ -86,20 +120,26 @@ class LoginTemplate extends Component {
             })
         };
 
-
         firebaseApp.auth().onAuthStateChanged(async user => {
             if (user) {
-                const snapshot = await doesUserExist();
+                const userId = user.uid;
+                let userPhoto;
+
+                const users = await doesUserExist();
 
                 // When this is the first login for the user
-                if (!Object.keys(snapshot.val()).includes(user.uid)) {
-                    await createUserValue(user.uid);
-                    await createDefaultRoom(user.uid);
+                if (!Object.keys(users.val()).includes(userId)) {
+                    await createUserValue(user);
+                    await createDefaultRoom(userId);
+                    userPhoto = (user.photoURL) ? user.photoURL.replace( "_normal", "" ) : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
+                } else {
+                    const snapshot = await queryUserValue(userId);
+                    userPhoto = (snapshot.val().photoPath) ? snapshot.val().photoPath : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
                 }
 
                 this.props.actions.messages.signIn({
                     userId: user.uid,
-                    userPhoto: "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
+                    userPhoto: userPhoto,
                 })
             }
         })

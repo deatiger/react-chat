@@ -44,6 +44,7 @@ export const backToRooms = (state, payload) => {
 export const configureRoom = (state, payload) => {
     const newState = produce(state, draftState => {
         draftState.isConfigured = true;
+        draftState.msgs = [];
     });
     return newState;
 };

@@ -306,7 +306,7 @@ export const actions = createActions({
                 isRead: false,
                 message: payload,
                 send_at: datetime,
-                send_at_minutes: -datetime
+                send_at_minus: -datetime
             };
 
             const newMessage = database.ref('chatRoom').child(fromId).child(roomId).child('messages').push(messageJson);
