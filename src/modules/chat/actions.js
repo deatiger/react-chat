@@ -4,14 +4,6 @@ import {getDatetimeAsNumber, updateMultiPath} from '../../functions/index'
 
 export const actions = createActions({
     messages: {
-        anonymousSignIn() {
-            firebaseApp.auth().signInAnonymously()
-                .then(() => { return true })
-                .catch((error) => {
-                    console.error(error);
-                    return false
-                })
-        },
         addMember(selectedUsers, rooms) {
             if (selectedUsers.length === 0) {
                 alert('メンバーを選択してください');
@@ -233,6 +225,22 @@ export const actions = createActions({
         signOut(value) {
             firebaseApp.auth().signOut();
             return value
+        },
+        mailSignIn(mail, password) {
+            firebaseApp.auth().signInWithEmailAndPassword(mail, password)
+                .then(() => { return true })
+                .catch((error) => {
+                    console.error(error);
+                    return false
+                })
+        },
+        mailSignUp(mail, password) {
+            firebaseApp.auth().createUserWithEmailAndPassword(mail, password)
+                .then(() => { return true })
+                .catch((error) => {
+                    console.error(error);
+                    return false
+                })
         },
         mute(value) {
             const payload = !value.isMute;

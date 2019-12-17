@@ -7,17 +7,17 @@ class MailAddressInput extends Component {
         return (
             <React.Fragment>
                 <div className="c-grid__row">
-                    <div>メールアドレス</div>
-                <form className="p-chat__textarea c-grid-center" noValidate autoComplete="off">
-                  <TextField
-                    id="username"
-                    className="col-12"
-                    margin="normal"
-                    label="ユーザー名を入力"
-                    onChange={(e) => this.props.onChange(e.target.value)}
-                    value={this.props.email}
-                  />
-                </form>
+                    <div className="col-3">Email：</div>
+                    <form className="p-chat__textarea c-grid-center" noValidate autoComplete="off">
+                        <TextField
+                            id="username"
+                            className="col-12"
+                            margin="normal"
+                            label="メールアドレスを入力"
+                            onChange={e => this.props.input(e.target.value)}
+                            value={this.props.mail}
+                        />
+                    </form>
                 </div>
             </React.Fragment>
         );

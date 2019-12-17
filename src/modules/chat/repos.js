@@ -1,9 +1,5 @@
 import produce from 'immer';
 
-export const anonymousSignIn = (state, payload) => {
-    return produce(state, draftState => {});
-};
-
 export const addMember = (state, payload) => {
     if (!payload) {
         // Cancel the action to add new members
@@ -106,6 +102,14 @@ export const inputGroupName = (state, payload) => {
         draftState.roomName = payload;
     });
     return newState;
+};
+
+export const mailSignIn = (state, payload) => {
+    return produce(state, draftState => {});
+};
+
+export const mailSignUp= (state, payload) => {
+    return produce(state, draftState => {});
 };
 
 export const renameGroup = (state, payload) => {

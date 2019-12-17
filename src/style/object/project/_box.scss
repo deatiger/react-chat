@@ -86,77 +86,17 @@
     }
 }
 
+$login-width: 320px;
 .p-box__login {
-    background: #f3f4f6;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, .8);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap-reverse;
-    height: auto;
-    padding: 0;
-    overflow: scroll;
-    position: relative;
-    width: 100%;
-
-    div {
-        background: #f3f4f6;
-        margin: 0;
-        padding: 0;
-    }
-
-    p {
-        background: #f3f4f6;
-        margin: 0;
-        padding: 0;
-    }
-
-    h2 {
-        color: #ee6045;
-        font-size: 1.953rem;
-        font-weight: 600;
-        text-align: center;
-    }
-
-    h3 {
-        color: #666666;
-        font-size: 1.4rem;
-        font-weight: 600;
-    }
-}
-
-.p-box__login__body {
     display: flex;
     flex-direction: column;
-    margin: 0 auto -3rem;
-    min-height: calc(100% - 3rem);
-}
-
-.p-box__login__footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 3rem;
-    text-align: center;
-    width: 100%;
-}
-
-.p-box__login__input {
-    width: 80%;
-
-    input {
-        border: 1px solid #ffffff;
-        border-radius: 30px;
-        height: 3.5rem;
-        text-indent: 1rem;
-        width: 100%;
-    }
-
-    h4 {
-        color: #777777;
-        font-size: 1.25rem;
-        font-weight: 600;
-        text-indent: 1rem;
-    }
+    padding: .75rem;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    width: $login-width;
+    margin-left: -($login-width / 2);
+    height: auto;
 }
 
 .p-box__row {
@@ -256,16 +196,5 @@
     .p-box__row {
         flex-wrap: wrap;
         justify-content: center;
-    }
-
-    .p-box__login {
-        min-height: 100vh;
-    }
-}
-
-/* CSS for iPad */
-@media screen and (max-width : 991px) {
-    .p-box__login {
-        min-height: 70vh;
     }
 }

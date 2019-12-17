@@ -6,9 +6,6 @@ import {combineReducers} from 'redux';
 
 const messages = handleActions(
     {
-        [`${actions.messages.anonymousSignIn}`](state, action) {
-            return repos.messages.anonymousSignIn(state, action.payload);
-        },
         [`${actions.messages.addMember}`](state, action) {
         return repos.messages.addMember(state, action.payload);
         },
@@ -41,6 +38,12 @@ const messages = handleActions(
         },
         [`${actions.messages.inputGroupName}`](state, action) {
             return repos.messages.inputGroupName(state, action.payload);
+        },
+        [`${actions.messages.mailSignIn}`](state, action) {
+            return repos.messages.mailSignIn(state, action.payload);
+        },
+        [`${actions.messages.mailSignUp}`](state, action) {
+            return repos.messages.mailSignUp(state, action.payload);
         },
         [`${actions.messages.rename}`](state, action) {
             return repos.messages.renameGroup(state, action.payload);

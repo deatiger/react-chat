@@ -6,6 +6,30 @@ import {getDatetimeAsNumber, updateMultiPath} from "../functions";
 class LoginTemplate extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            mail: "",
+            password: "",
+            isHidden: true
+        };
+
+        this.inputMail = (value) => {
+            this.setState({
+                mail: value
+            })
+        };
+
+        this.inputPassword = (value) => {
+            this.setState({
+                password: value
+            })
+        };
+
+        this.toggleIsHidden = () => {
+            this.setState({
+                isHidden: !this.state.isHidden
+            })
+        }
     }
 
     async componentDidMount() {
@@ -18,10 +42,10 @@ class LoginTemplate extends Component {
         };
 
         const createUserValue = async (user) => {
-            console.log(user.photoURL);
+
             return database.ref('users').update({
                 [user.uid]: {
-                    name: user.displayName,
+                    name: (user.displayName) ? user.displayName: user.email,
                     photoPath: (user.photoURL) ? user.photoURL.replace( "_normal", "" ) : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
                 }
             })
@@ -46,7 +70,7 @@ class LoginTemplate extends Component {
                         DEFAULTMESSAGES: {
                             from_id: businessAccountId,
                             isRead: false,
-                            message: "お仕事の依頼はこちらのチャットでお願いします！\n匿名アカウントからの依頼は受け付けていません。",
+                            message: "お仕事の依頼はこちらのチャットでお願いします！\n匿名でのご依頼は受け付けていません。",
                             send_at: now,
                             send_at_minus: -now
                         }
@@ -66,7 +90,7 @@ class LoginTemplate extends Component {
                         DEFAULTMESSAGES: {
                             from_id: chatAccountId,
                             isRead: false,
-                            message: "チャット機能を試してみたい人はここで雑談しましょう！\n匿名アカウントじゃなければ、トラハックが気が向いたら返信します。",
+                            message: "チャット機能を試してみたい人はここで雑談しよう！\n気が向いたら返信します。",
                             send_at: now,
                             send_at_minus: -now
                         }
@@ -148,9 +172,27 @@ class LoginTemplate extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="c-grid__column p-3">
+                <div className="p-box__login">
                     <Login.TwitterLoginButton signIn={this.props.actions.messages.twitterSignIn}/>
-                    <Login.AnonymousLoginButton signIn={this.props.actions.messages.anonymousSignIn}/>
+                    <Login.ToggleButton toggleIsHidden={this.toggleIsHidden} />
+                    {(!this.state.isHidden) && (
+                        <div className="c-grid__column">
+                            <Login.MailAddressInput mail={this.state.mail} input={this.inputMail}/>
+                            <Login.PasswordInput password={this.state.password} input={this.inputPassword}/>
+                            <div className="c-grid__row-wrap">
+                                <Login.MailLoginButton
+                                    mail={this.state.mail}
+                                    password={this.state.password}
+                                    signIn={this.props.actions.messages.mailSignIn}
+                                />
+                                <Login.MailSignUpButton
+                                    mail={this.state.mail}
+                                    password={this.state.password}
+                                    signUp={this.props.actions.messages.mailSignUp}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </React.Fragment>
         );
