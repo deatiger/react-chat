@@ -418,7 +418,8 @@ th {
     align-items: center;
     display: flex;
     flex-direction: row;
-    padding: .5rem; }
+    padding: .5rem;
+    width: 100%; }
   .c-grid__row-wrap {
     align-items: center;
     display: flex;

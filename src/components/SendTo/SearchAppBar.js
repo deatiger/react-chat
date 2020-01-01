@@ -2,7 +2,6 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CreateSharpIcon from '@material-ui/icons/CreateSharp';
-import DoneOutlineSharp from '@material-ui/icons/DoneOutlineSharp';
 import KeyboardBackspaceSharp from '@material-ui/icons/KeyboardBackspaceSharp';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -26,7 +25,6 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
-    marginRight: 10,
     width: '100%',
   },
   searchIcon: {
@@ -40,6 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
   inputRoot: {
     color: 'inherit',
+    width: '100%',
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
@@ -81,7 +80,7 @@ export default function SearchAppBar(props) {
           </div>
           <IconButton
               aria-label="sign-out"
-              className="u-margin__right"
+              edge="end"
               color="inherit"
               onClick={() => {props.signOut()}} >
             <ExitToAppIcon />

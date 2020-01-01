@@ -7,7 +7,6 @@ class SendTemplate extends Component {
         super(props);
         this.chatMemberRef = database.ref('chatRoom');
         this.userRef = database.ref('users');
-        this.specifiedUserId = window.location.search.split('?partnerId=')[1];
 
         this.state = {
             displayedUsers: [],
@@ -31,12 +30,6 @@ class SendTemplate extends Component {
             })
         };
 
-        this.resetUser = () => {
-            this.setState({
-                selectedUsers: []
-            })
-        };
-
         this.searchUser = (word, users) => {
             let displayedUsers = [];
 
@@ -56,6 +49,7 @@ class SendTemplate extends Component {
                 displayedUsers: displayedUsers
             })
         };
+
 
     }
 
@@ -164,7 +158,7 @@ class SendTemplate extends Component {
             };
 
             let userValues = this.props.messages.userValues;
-            let displayedUsers = this.props.messages.displayedUsers;
+            let displayedUsers = this.state.displayedUsers;
             userValues[userId] = userJson;
             displayedUsers.push(userJson);
 
@@ -177,7 +171,7 @@ class SendTemplate extends Component {
 
     componentWillUnmount() {
         this.chatMemberRef.child(this.props.messages.userId).off();
-        return this.userRef.orderByKey().off();
+        this.userRef.orderByKey().off();
     }
 
     render() {

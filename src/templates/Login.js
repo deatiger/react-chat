@@ -69,7 +69,7 @@ class LoginTemplate extends Component {
                         [userId]: businessAccountId
                     },
                     messages: {
-                        DEFAULTMESSAGES: {
+                        "-DEFAULTMESSAGES": {
                             from_id: businessAccountId,
                             isRead: false,
                             message: "お仕事の依頼はこちらのチャットでお願いします！\n匿名でのご依頼は受け付けていません。",
@@ -89,7 +89,7 @@ class LoginTemplate extends Component {
                         [userId]: chatAccountId
                     },
                     messages: {
-                        DEFAULTMESSAGES: {
+                        "-DEFAULTMESSAGES": {
                             from_id: chatAccountId,
                             isRead: false,
                             message: "チャット機能を試してみたい人はここで雑談しよう！\n気が向いたら返信します。",
@@ -111,7 +111,7 @@ class LoginTemplate extends Component {
                         [chatAccountId]: userId
                     },
                     messages: {
-                        DEFAULTMESSAGES: {
+                        "-DEFAULTMESSAGES": {
                             from_id: businessAccountId,
                             isRead: false,
                             message: `ここは${userName}さんがオーナーのグループチャットです！\n右上の設定ボタンからグループの情報を変更してみてね。`,

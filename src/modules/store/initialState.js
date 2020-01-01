@@ -6,7 +6,6 @@ export const initialState = {
     rooms: {},
     roomName: '',
     displayedRooms: {},
-    displayedUsers : [], // [...userId]fs
     userValues: {}, // {key: userId, value: {userId, image, name}}
     msgs: [],
     isCreatePage: false,

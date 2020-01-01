@@ -15,12 +15,6 @@ const classes = makeStyles(theme => ({
         paddingLeft: 14,
         paddingRight: 14,
     },
-    blank: {
-        position: 'relative',
-        flexGrow: 1,
-        width: "100%",
-        marginLeft: 0,
-    }
 }));
 
 const NavBar = (props) => {
@@ -35,25 +29,24 @@ const NavBar = (props) => {
                     onClick={() => {props.back()}} >
                     <KeyboardBackspaceSharp />
                 </IconButton>
-                <div className={classes.blank} />
-                <IconButton
-                    className="u-margin__right"
-                    color="inherit"
-                    aria-label="sign-out"
-                    edge="end"
-                    onClick={() => {props.signOut()}} >
-                    <ExitToAppIcon />
-                </IconButton>
-                {!(props.value.isConfigured) && (
+                <div className="c-grid__row mr-0">
+                    <div className="ml-auto">
                     <IconButton
-                        className="u-margin__right"
-                        edge="end"
                         color="inherit"
-                        aria-label="setting"
-                        onClick={() => {props.configure()}} >
-                        <SettingsIcon/>
+                        aria-label="sign-out"
+                        onClick={() => {props.signOut()}} >
+                        <ExitToAppIcon />
                     </IconButton>
-                )}
+                    {!(props.value.isConfigured) && (
+                        <IconButton
+                            color="inherit"
+                            aria-label="setting"
+                            onClick={() => {props.configure()}} >
+                            <SettingsIcon/>
+                        </IconButton>
+                    )}
+                    </div>
+                </div>
             </Toolbar>
         </AppBar>
         </div>
