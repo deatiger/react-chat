@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Login} from '../components/core';
+import {Login} from '../components';
 import {database, firebaseApp} from "../firebase";
 import {getDatetimeAsNumber, updateMultiPath} from "../functions";
 

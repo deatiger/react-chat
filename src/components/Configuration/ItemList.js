@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import {Configuration} from '../../../components/core';
+import {Configuration} from '../../components';
 import IconButton from '@material-ui/core/IconButton';
 
 class AlignItemsList extends Component {
@@ -27,9 +27,10 @@ class AlignItemsList extends Component {
 
     render() {
         const isOwner = (this.props.rooms.ownerId === this.props.value.userId);
+        const isGroupChat = (this.props.rooms.userIds.length > 1);
         return (
             <List className={this.classes.root}>
-                {(this.props.value.selected === 'GROUP' && isOwner) ? (
+                {(isGroupChat && isOwner) ? (
                     <div>
                         <div className="p-icon-big mx-auto">
                             <label htmlFor="room-icon">

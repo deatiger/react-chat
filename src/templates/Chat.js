@@ -1,6 +1,6 @@
 import React, {Component, Suspense} from 'react';
-import {Chat} from '../components/core';
-import * as Common from "../components/core/Common";
+import {Chat} from '../components';
+import * as Common from "../components/Common";
 import {database} from '../firebase/index'
 
 class ChatTemplate extends Component {

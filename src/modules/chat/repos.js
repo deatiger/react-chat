@@ -31,7 +31,6 @@ export const backToRooms = (state, payload) => {
         draftState.isMute = false;
         draftState.msgs = [];
         draftState.roomId = '';
-        draftState.selected = '';
         draftState.userIds = '';
     });
     return newState;
@@ -62,7 +61,6 @@ export const createRoom = (state, payload) => {
             draftState.msgs = [];
             draftState.rooms[payload.roomId] = payload.room;
             draftState.displayedRooms[payload.roomId] = payload.room;
-            draftState.selected = "GROUP";
             draftState.roomId = payload.roomId;
             draftState.userIds = payload.userIds;
         });
@@ -133,19 +131,11 @@ export const searchMessage = (state, payload) => {
 };
 
 export const selectRoom = (state, payload) => {
-    let selected = "";
-    if (payload.userIds.lenght === 2) {
-        selected = "PRIVATE"
-    } else {
-        selected = "GROUP"
-    }
-
     const newState = produce(state, draftState => {
         draftState.isMute = payload.isMute;
         draftState.msgs = [];
         draftState.roomId = payload.id;
         draftState.roomName = payload.name;
-        draftState.selected = selected;
         draftState.userIds = payload.userIds;
     });
     return newState;

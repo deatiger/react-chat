@@ -3,8 +3,6 @@ import {SendToContainer} from "../containers/SendTo";
 import {ChatContainer} from "../containers/Chat";
 import {ConfigurationContainer} from "../containers/Configuration";
 import {LoginContainer} from "../containers/Login";
-import {firebaseApp, database} from "../firebase";
-import styles from '../style.css'
 
 class RootTemplate extends Component {
     constructor(props) {

@@ -12,6 +12,5 @@ export const initialState = {
     isCreatePage: false,
     isConfigured: false,
     isMute: false,
-    selected: '',
     userIds: '',
 };

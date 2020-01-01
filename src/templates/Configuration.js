@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Configuration} from '../components/core';
-import {SendTo} from '../components/core';
-import {Common} from '../components/core';
+import {Configuration} from '../components';
+import {SendTo} from '../components';
+import {Common} from '../components';
 import {database} from '../firebase/index'
 
 class ConfigurationTemplate extends Component {
@@ -194,9 +194,6 @@ class ConfigurationTemplate extends Component {
                             value={this.props.messages}
                             back={this.props.actions.messages.backToChat}
                         />
-                        {(this.props.messages.selected === "") && (
-                            <div></div>
-                        )}
                         <div className="p-chat__area-list">
                             {(Object.keys(this.props.messages.userValues).length > 0) && (
                                 <Configuration.AlignItemsList

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SendTo} from '../components/core';
+import {SendTo} from '../components';
 import {database} from '../firebase/index'
 
 class SendTemplate extends Component {
