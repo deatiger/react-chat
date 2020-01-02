@@ -151,8 +151,18 @@ export const signIn = (state, payload) => {
 
 export const signOut = (state, payload) => {
     const newState = produce(state, draftState => {
-        draftState.userId = '';
+        draftState.isCreatePage = false;
+        draftState.isConfigured = false;
+        draftState.isMute = false;
+        draftState.isMute = '';
+        draftState.msgs = '';
+        draftState.rooms = '';
+        draftState.roomId = '';
+        draftState.roomName = '';
+        draftState.userIds = '';
+        draftState.userValues = '';
         draftState.userPhoto = '';
+        draftState.value = '';
     });
     return newState;
 };

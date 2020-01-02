@@ -9,8 +9,6 @@ class RootTemplate extends Component {
         super(props);
     }
 
-
-
     render() {
         const isLogined = (this.props.messages.userId !== "");
         const isRoomSelected = (this.props.messages.roomId !== "");

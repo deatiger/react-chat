@@ -8,6 +8,7 @@ class LoginTemplate extends Component {
         super(props);
 
         this.state = {
+            name: "",
             mail: "",
             password: "",
             isHidden: true
@@ -16,6 +17,12 @@ class LoginTemplate extends Component {
         this.inputMail = (value) => {
             this.setState({
                 mail: value
+            })
+        };
+
+        this.inputName = (value) => {
+            this.setState({
+                name: value
             })
         };
 
@@ -45,7 +52,7 @@ class LoginTemplate extends Component {
 
             return database.ref('users').update({
                 [user.uid]: {
-                    name: (user.displayName) ? user.displayName: user.email,
+                    name: (user.displayName) ? user.displayName: this.state.name,
                     photoPath: (user.photoURL) ? user.photoURL.replace( "_normal", "" ) : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b"
                 }
             })
@@ -54,8 +61,8 @@ class LoginTemplate extends Component {
         const createDefaultRoom = (user) => {
             return new Promise((resolve, reject) => {
                 const now = getDatetimeAsNumber();
-                const userId = user.uid
-                const userName = (user.displayName) ? user.displayName: user.email;
+                const userId = user.uid;
+                const userName = (user.displayName) ? user.displayName: this.state.name;
                 const businessAccountId = "JIZiG0O1cpfaO3EqFkRQLPeZL2H3";
                 const chatAccountId = "cbaRWL7y0xR4VXoXxzpUnkFaoRv1";
 
@@ -179,6 +186,7 @@ class LoginTemplate extends Component {
                     <Login.ToggleButton toggleIsHidden={this.toggleIsHidden} />
                     {(!this.state.isHidden) && (
                         <div className="c-grid__column">
+                            <Login.NameInput name={this.state.name} input={this.inputName}/>
                             <Login.MailAddressInput mail={this.state.mail} input={this.inputMail}/>
                             <Login.PasswordInput password={this.state.password} input={this.inputPassword}/>
                             <div className="c-grid__row-wrap">
