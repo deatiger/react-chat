@@ -180,31 +180,29 @@ class LoginTemplate extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <div className="p-box__login">
-                    <Login.TwitterLoginButton signIn={this.props.actions.messages.twitterSignIn}/>
-                    <Login.ToggleButton toggleIsHidden={this.toggleIsHidden} />
-                    {(!this.state.isHidden) && (
-                        <div className="c-grid__column">
-                            <Login.NameInput name={this.state.name} input={this.inputName}/>
-                            <Login.MailAddressInput mail={this.state.mail} input={this.inputMail}/>
-                            <Login.PasswordInput password={this.state.password} input={this.inputPassword}/>
-                            <div className="c-grid__row-wrap">
-                                <Login.MailLoginButton
-                                    mail={this.state.mail}
-                                    password={this.state.password}
-                                    signIn={this.props.actions.messages.mailSignIn}
-                                />
-                                <Login.MailSignUpButton
-                                    mail={this.state.mail}
-                                    password={this.state.password}
-                                    signUp={this.props.actions.messages.mailSignUp}
-                                />
-                            </div>
+            <div className="p-box__login">
+                <Login.TwitterLoginButton signIn={this.props.actions.messages.twitterSignIn}/>
+                <Login.ToggleButton toggleIsHidden={this.toggleIsHidden} />
+                {(!this.state.isHidden) && (
+                    <div className="c-grid__column">
+                        <Login.NameInput name={this.state.name} input={this.inputName}/>
+                        <Login.MailAddressInput mail={this.state.mail} input={this.inputMail}/>
+                        <Login.PasswordInput password={this.state.password} input={this.inputPassword}/>
+                        <div className="c-grid__row-wrap">
+                            <Login.MailLoginButton
+                                mail={this.state.mail}
+                                password={this.state.password}
+                                signIn={this.props.actions.messages.mailSignIn}
+                            />
+                            <Login.MailSignUpButton
+                                mail={this.state.mail}
+                                password={this.state.password}
+                                signUp={this.props.actions.messages.mailSignUp}
+                            />
                         </div>
-                    )}
-                </div>
-            </React.Fragment>
+                    </div>
+                )}
+            </div>
         );
     }
 }

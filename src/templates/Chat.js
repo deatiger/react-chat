@@ -1,6 +1,5 @@
-import React, {Component, Suspense} from 'react';
-import {Chat} from '../components';
-import * as Common from "../components/Common";
+import React, {Component} from 'react';
+import {Chat, Common} from '../components';
 import {database} from '../firebase/index'
 
 class ChatTemplate extends Component {
@@ -56,36 +55,34 @@ class ChatTemplate extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <div className="p-chat">
-                    <Common.NavBar
-                        value={this.props.messages}
-                        actions={this.props.actions.messages}
-                        back={this.props.actions.messages.backToRooms}
-                        configure={this.props.actions.messages.configure}
-                        signOut={this.props.actions.messages.signOut}
-                    />
-                    <div className="p-chat__area" id="scroll-area">
-                        {this.props.messages.msgs.map((m, i) => (
-                            <Chat.AlignItemsList key={i} msgs={m} />
-                        ))}
-                    </div>
-                    <div className="c-grid__row">
-                        <Chat.TextInput
-                            onChange={this.props.actions.messages.change}
-                            value={this.props.messages.value}
-                        />
-                        <Chat.SendButton
-                            onClick={this.props.actions.messages.submit}
-                            value={this.props.messages.value}
-                            roomId={this.props.messages.roomId}
-                            fromId={this.props.messages.userId}
-                            toId={this.props.messages.partnerId}
-                            userIds={this.props.messages.userIds}
-                        />
-                    </div>
+            <div className="p-chat">
+                <Common.NavBar
+                    value={this.props.messages}
+                    actions={this.props.actions.messages}
+                    back={this.props.actions.messages.backToRooms}
+                    configure={this.props.actions.messages.configure}
+                    signOut={this.props.actions.messages.signOut}
+                />
+                <div className="p-chat__area" id="scroll-area">
+                    {this.props.messages.msgs.map((m, i) => (
+                        <Chat.AlignItemsList key={i} msgs={m} />
+                    ))}
                 </div>
-            </React.Fragment>
+                <div className="c-grid__row">
+                    <Chat.TextInput
+                        onChange={this.props.actions.messages.change}
+                        value={this.props.messages.value}
+                    />
+                    <Chat.SendButton
+                        onClick={this.props.actions.messages.submit}
+                        value={this.props.messages.value}
+                        roomId={this.props.messages.roomId}
+                        fromId={this.props.messages.userId}
+                        toId={this.props.messages.partnerId}
+                        userIds={this.props.messages.userIds}
+                    />
+                </div>
+            </div>
         );
     }
 }
