@@ -85,10 +85,10 @@ class ConfigurationTemplate extends Component {
             if (isPrivate) {
                 const partnerValue = await queryUserValue(roomValue.partner_id);
                 roomName = partnerValue.name;
-                roomIcon = (partnerValue.photoPath) ? partnerValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/energeia-ad20f.appspot.com/o/images%2Fsrc%2Ficon_prof.png?alt=media&token=12803b38-3ab9-467b-9215-e3c19d6c34fa"
+                roomIcon = (partnerValue.photoPath) ? partnerValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-image-square.png?alt=media&token=03d04110-aab2-4c03-9779-2293f40bb463";
             } else {
                 roomName = roomValue.name;
-                roomIcon = roomValue.group_icon;
+                roomIcon = roomValue.room_icon;
             }
 
             // Add message data to each room
@@ -149,7 +149,7 @@ class ConfigurationTemplate extends Component {
             const userJson = {
                 id: userId,
                 name: userValue.name,
-                image: (userValue.photoPath) ? userValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/energeia-ad20f.appspot.com/o/images%2Fsrc%2Ficon_prof.png?alt=media&token=12803b38-3ab9-467b-9215-e3c19d6c34fa",
+                image: (userValue.photoPath) ? userValue.photoPath : "https://firebasestorage.googleapis.com/v0/b/react-chat-28bf1.appspot.com/o/images%2Fno-profile-icon.jpg?alt=media&token=056753ee-3755-4b4e-bff1-a8ef8b614a6b",
             };
 
             let displayedUsers = this.state.displayedUsers;
