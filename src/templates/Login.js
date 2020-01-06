@@ -185,9 +185,9 @@ class LoginTemplate extends Component {
                 <Login.ToggleButton toggleIsHidden={this.toggleIsHidden} />
                 {(!this.state.isHidden) && (
                     <div className="c-grid__column">
-                        <Login.NameInput name={this.state.name} input={this.inputName}/>
-                        <Login.MailAddressInput mail={this.state.mail} input={this.inputMail}/>
-                        <Login.PasswordInput password={this.state.password} input={this.inputPassword}/>
+                        <Login.InputField value={this.state.name} input={this.inputName} label="名前" type="text" />
+                        <Login.InputField value={this.state.mail} input={this.inputMail} label="メールアドレス" type="text" />
+                        <Login.InputField value={this.state.password} input={this.inputPassword} label="パスワード" type="password" />
                         <div className="c-grid__row-wrap">
                             <Login.MailLoginButton
                                 mail={this.state.mail}
